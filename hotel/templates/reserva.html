@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.novareserva2.css' %}">
+    <title>Reserva Hotel</title>
+  </head>
+  <body>
+    <div class="form">
+        {% block content %}
+          <h1>Nova Reserva Hotel</h1>
+          <form method="post">
+            {% csrf_token %}
+            {{ form_reserva.as_p }}
+            <br>
+            <div class='home'>
+              <input class="butao" type="submit" value="Salvar">
+              <a href="{% url 'reservaday' %}">Reserva Day Care</a>
+              <a href="{% url 'home' %}">Home</a>
+
+            </div>
+          </form>
+        {% endblock %}
+
+      
+    </div>
+    
+  </body>
+</html>

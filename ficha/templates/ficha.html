@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_ficha2.css' %}">
+    <title>Formulário para registro de cães</title>
+  </head>
+  <body>
+    <div class="form">
+    <h1>Formulário para registro de cães</h1>
+      <form action='{% url "ficha:ficha" %}' method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class='home'>
+          <input class ="butao" type="submit" value="Salvar">
+          <a href="{% url 'home' %}">Home</a>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
