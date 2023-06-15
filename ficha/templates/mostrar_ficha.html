@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_proc.css' %}">
+    <title>Ficha do Animal</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Home</a>
+    <h1>Ficha de {{animal.nome}}</h1>
+    <div class='form'>
+        <p><strong>Nome do Animal:</strong> {{ animal.nome }}</p>
+        <p><strong>Raça:</strong> {{ animal.raca }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ animal.data_de_nascimento }}</p>
+        <p><strong>Sexo:</strong> {{ animal.sexo }}</p>
+        <p><strong>Peso:</strong> {{ animal.peso }}kg</p>
+        <p><strong>Tipo de Alimentação:</strong> {{ animal.tipo_alimentacao }}</p>
+        <p><strong>Restrições Alimentares:</strong> {{ animal.restricoes_alimentares }}</p>
+        <p><strong>Nome do Tutor:</strong> {{ animal.nome_tutor }}</p>
+        <p><strong>Contato do Tutor:</strong> {{ animal.contato_tutor }}</p>
+        <p><strong>CPF do Tutor:</strong> {{ animal.cpf_tutor }}</p>
+        <p><strong>Endereço:</strong> {{ animal.endereco }}</p>
+        <p><strong>Veterinario:</strong> {{ animal.veterinario }}</p>
+        <p><strong>Observações:</strong> {{ animal.observacoes }}</p>
+        <p><strong>Data da Criação da Ficha:</strong> {{ animal.data }}</p>
+    
+        <!-- Adicione outras informações que desejar mostrar -->
+    </div>
+</body>
+</html>

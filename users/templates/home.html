@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_home4.css' %}">
+    <title>Página Inicial</title>
+  </head>
+  <body>
+    
+    <div class="form">
+      <img class="logo" src="{% static 'img/logo.jpeg' %}">
+
+      <h1>Página Inicial</h1>
+      <div class="ul">
+        <a href="{% url 'login' %}">Login</a><br>
+        <a href="{% url 'cadastro' %}">Cadastro</a><br>
+        <a href="{% url 'ficha:ficha' %}">Cadastrar Pet</a><br>
+        <a href="{% url 'ficha:lista' %}">Cães cadastrados</a><br>
+        <a href="{% url 'ficha:puxar_ficha' %}">Procurar Ficha</a><br>
+        <a href="{% url 'reserva' %}">Nova Reserva Hotel</a><br>
+        <a href="{% url 'reservaday' %}">Nova Reserva Day Care</a><br>
+        <a href="{% url 'lista_reserva' %}">Reservas do Hotel em Andamento</a><br>
+        <a href="{% url 'lista_reservaday' %}">Reservas Day Care em Andamento</a><br>
+        <a href="{% url 'puxar_reserva' %}">Procurar Reserva Hotel</a><br>
+        <a href="{% url 'puxar_reservaday' %}">Procurar Reserva Day Care</a><br>
+        <a href="{% url 'historico_reserva' %}">Historico de Reservas</a><br>
+        <a href="{% url 'caixa:relatoriocaixa' %}">Gerar Relatório de Caixa</a><br> 
+        <a href="{% url 'logout' %}">Sair</a><br><br>
+      </div>
+      {% load humanize %}
+    </div>
+    <h1>Cachorros com Aniversário no Mês de {{mes}}</h1>
+    
+    {% if cachorros_aniversario %}
+    {% for cachorro in cachorros_aniversario %}
+    <p>Nome: {{ cachorro.nome }}</p>
+    <p>Data de Aniversário: {{ cachorro.data_de_nascimento|date:"d" }} de {{ cachorro.data_de_nascimento|date:"F" }}</p>
+    {% endfor %}
+
+    {% else %}
+    <p>Nenhum cachorro faz aniversário neste mês.</p>
+    {% endif %}
+
+    <h1>Cachorros com Aniversário no proximo Mês</h1>
+    {% if aniversario %}
+    {% for ani in aniversario %}
+    <p>Nome: {{ ani.nome }}</p>
+    <p>Data de Aniversário: {{ ani.data_de_nascimento|date:"d" }} de {{ ani.data_de_nascimento|date:"F" }}</p>
+    {% endfor %}
+
+    {% else %}
+    <p>Nenhum cachorro faz aniversário próximo mês.</p>
+    {% endif %}
+  </body>
+</html>
