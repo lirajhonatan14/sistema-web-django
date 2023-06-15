@@ -41,6 +41,7 @@ def caixa_hotel(request, num_reserva):
     data_atual = date.today()
 
     # Convertendo para string no formato ISO (YYYY-MM-DD)
+<<<<<<< HEAD
     data_str = data_atual.strftime('%d-%m-%Y')
 
     # Usando a string para criar um objeto Caixa
@@ -48,6 +49,12 @@ def caixa_hotel(request, num_reserva):
 
     # Salvando o objeto Caixa no banco de dados
     caixa.save()
+=======
+    data_str = data_atual.strftime('%Y-%m-%d')
+
+
+    # Salvando o objeto Caixa no banco de dados
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     if request.method == 'POST':
         caixa_form = CaixaForm(request.POST)
         reserva.pago = True
@@ -68,9 +75,17 @@ def caixa_hotel(request, num_reserva):
                 relatorio_estadia=cleaned_data['relatorio_estadia'],
                 desconto=cleaned_data['desconto'],
                 metodo_de_pagamento=cleaned_data['metodo_de_pagamento'],
+<<<<<<< HEAD
                 total=0
             )
             
+=======
+                data=data_str,
+                total=0
+                
+            )
+            caixa.save()
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
             return redirect('caixa:relatorio', num_reserva=num_reserva)
         else:
             # Print out the form data and validation errors
@@ -78,6 +93,12 @@ def caixa_hotel(request, num_reserva):
             print(caixa_form.errors)
     else:
         caixa_form = CaixaForm()
+<<<<<<< HEAD
+=======
+
+    # Salvando o objeto Caixa no banco de dados
+   
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     
     context = {
         'reserva': reserva,
@@ -98,13 +119,21 @@ def caixa_day(request, num_reserva):
         caixa_form = CaixaDayForm(request.POST)
         reserva.pago = True
         reserva.save()
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
         if caixa_form.is_valid():
             # Get the cleaned form data
             cleaned_data = caixa_form.cleaned_data
             
             # Get the pet associated with the reservation
             pet = reserva.pet
+<<<<<<< HEAD
             
+=======
+            pacote = reserva.pacote
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
             # Create a new Caixa object using the form data and pet
             caixa = CaixaDay.objects.create(
                 num_reserva=reserva,
@@ -113,7 +142,12 @@ def caixa_day(request, num_reserva):
                 relatorio_estadia=cleaned_data['relatorio_estadia'],
                 desconto=cleaned_data['desconto'],
                 metodo_de_pagamento=cleaned_data['metodo_de_pagamento'],
+<<<<<<< HEAD
                 total=0
+=======
+                total=0,
+                pacote = pacote,
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
             )
             
             return redirect('caixa:relatorioday', num_reserva=num_reserva)
@@ -208,11 +242,19 @@ def relatorio_reservas(request, num_reserva):
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'filename="relatorio_reservas.pdf"'
     return response
+<<<<<<< HEAD
 
 def relatorio_reservasday(request, num_reserva):
     # Get the CaixaDay objects for the given num_reserva
     caixas = CaixaDay.objects.filter(num_reserva=num_reserva)
 
+=======
+@login_required(login_url="/auth/login/")
+def relatorio_reservasday(request, num_reserva):
+    # Get the CaixaDay objects for the given num_reserva
+    caixas = CaixaDay.objects.filter(num_reserva=num_reserva)
+    
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     hora = timezone.now().time()
     hora_atual = diminuir_horas(hora, 3)
 
@@ -225,6 +267,10 @@ def relatorio_reservasday(request, num_reserva):
         pet = caixa.pet
         desc = caixa.desconto
         servicos_adicionais = caixa.num_reserva.servicos_adicionais
+<<<<<<< HEAD
+=======
+        pacote = caixa.pacote
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 
     if servicos_adicionais is not None and servicos_adicionais.valor_servico is not None:
         # O objeto servicos_adicionais e o atributo valor_servico estão definidos
@@ -233,6 +279,7 @@ def relatorio_reservasday(request, num_reserva):
         # O objeto servicos_adicionais ou o atributo valor_servico é nulo
         serv = 0  # Ou qualquer outro valor padrão que você queira atribuir
 
+<<<<<<< HEAD
     desc = (desc/100)*60
     total = (60-desc)+serv
     caixa.total = total
@@ -240,6 +287,25 @@ def relatorio_reservasday(request, num_reserva):
     caixa.save()
         # Create a dictionary to hold the data for the PDF
     context = {
+=======
+    if reserva.pacote:
+        val = pacote.preco
+        desc = (desc/100)*val
+        numero = (val+serv)-desc
+        total = "{:.2f}".format(numero).rstrip('0').rstrip('.')
+        
+        caixa.total = total
+        caixa.save()
+    else:
+        desc = (desc/100)*60
+        numero = (60-desc)+serv
+        total = "{:.2f}".format(numero).rstrip('0').rstrip('.')
+        caixa.total = total
+        caixa.save()
+        # Create a dictionary to hold the data for the PDF
+    context = {
+        'pacote':pacote,
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
         'total': total,
         'hora_atual': hora_atual,
         'reserva': reserva,
@@ -324,7 +390,11 @@ def calcular_total(num_reserva):
         
     total = duracao * taxa
     return total
+<<<<<<< HEAD
 
+=======
+@login_required(login_url="/auth/login/")
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 def ficha_reserva(request):
     if request.method == 'POST':
         nome_pet = request.POST.get('pet')
@@ -334,11 +404,19 @@ def ficha_reserva(request):
         except Reserva.DoesNotExist:
             return render(request, 'reserva_nao_encontrada.html')
     return render(request, 'proc_reserva.html')
+<<<<<<< HEAD
 
 def exibir_reserva(request, num_reserva):
     reserva = get_object_or_404(Reserva, num_reserva=num_reserva)
     return render(request, 'ficha_reserva.html', {'pet': reserva})
 
+=======
+@login_required(login_url="/auth/login/")
+def exibir_reserva(request, num_reserva):
+    reserva = get_object_or_404(Reserva, num_reserva=num_reserva)
+    return render(request, 'ficha_reserva.html', {'pet': reserva})
+@login_required(login_url="/auth/login/")
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 def relatorio_caixa(request):
     data_atual = datetime.now().date()
     data_inicio = data_atual - timedelta(days=30)

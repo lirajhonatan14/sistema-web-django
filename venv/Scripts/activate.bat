@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=D:\Sistema Zoe\venv
+=======
+set VIRTUAL_ENV=C:\Users\liraj\Documents\Sistema Zoe\venv
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 
 if not defined PROMPT set PROMPT=$P$G
 

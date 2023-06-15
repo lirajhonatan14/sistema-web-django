@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 def cadastro(request):
     if request.method == "GET":   
         return render(request,'cadastro.html')
@@ -47,4 +50,8 @@ def login(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     else:
         return render(request, 'login.html')
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6

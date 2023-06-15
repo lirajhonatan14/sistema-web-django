@@ -1,11 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+<<<<<<< HEAD
 from .forms import DogForm, VacinaForm, VacinaAnimalForm
 from django.contrib import messages
 from ficha.models import FichaDog, VacinaAnimal, Vacina
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+=======
+from .forms import DogForm
+from django.contrib import messages
+from ficha.models import FichaDog
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 @login_required(login_url="/auth/login/")
 def ficha(request):
     if request.method == 'POST':
@@ -24,7 +33,11 @@ def ficha(request):
 def lista_fichas_cachorros(request):
     cachorros = FichaDog.objects.all()
     return render(request, 'lista_pet.html', {'cachorros': cachorros})
+<<<<<<< HEAD
 @login_required(login_url="/auth/login/")
+=======
+
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 def puxar_ficha(request):
     if request.method == 'POST':
         return redirect('mostrar_ficha')
@@ -33,7 +46,11 @@ def puxar_ficha(request):
     return render(request, 'proc_ficha.html', {'animais': animais})
 
 
+<<<<<<< HEAD
 @login_required(login_url="/auth/login/")
+=======
+
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 def mostrar_ficha(request):
     nome_id = request.POST.get('nome_id')
     try:
@@ -44,6 +61,7 @@ def mostrar_ficha(request):
     else:
         # Lógica para exibir a ficha do animal
         return render(request, 'mostrar_ficha.html', {'animal': animal})
+<<<<<<< HEAD
 
 def cadastrar_vacina(request):
     if request.method == 'POST':
@@ -89,3 +107,5 @@ def vacina(request):
 
 
    
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6

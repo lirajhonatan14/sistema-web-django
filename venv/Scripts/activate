@@ -38,7 +38,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
+<<<<<<< HEAD
 VIRTUAL_ENV="D:\Sistema Zoe\venv"
+=======
+VIRTUAL_ENV="C:\Users\liraj\Documents\Sistema Zoe\venv"
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

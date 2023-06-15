@@ -38,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'django.contrib.humanize',
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     'hotel',
     'users',
     'ficha',

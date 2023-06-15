@@ -8,12 +8,15 @@ urlpatterns = [
     path('listapet/', views.lista_fichas_cachorros, name='lista'),
     path('procurar_ficha/', views.puxar_ficha, name='puxar_ficha'),
     path('mostrar_ficha/', views.mostrar_ficha, name='mostrar_ficha'),
+<<<<<<< HEAD
     path('cadastrar_vacina/', views.cadastrar_vacina, name='cadastrar_vacina'),
     path('selecionar_vacinas/', views.definir_vacina, name='definir_vacina'),
     path('vacina/', views.vacina, name='vacina'),
     path('proc_vacina/', views.proc_vacina, name='procvacina'),
     
     
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 ] 
     
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!"D:\Sistema Zoe\venv\Scripts\python.exe"
+=======
+#!"C:\Users\liraj\Documents\Sistema Zoe\venv\Scripts\python.exe"
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 # EASY-INSTALL-ENTRY-SCRIPT: 'xhtml2pdf==0.2.11','console_scripts','pisa'
 import re
 import sys

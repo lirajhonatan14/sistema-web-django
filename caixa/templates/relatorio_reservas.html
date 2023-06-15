@@ -20,9 +20,16 @@
         {%  if context.servicos %}
             <p>Serviços Adicionais: {{context.servicos.nome_servico}} - R$ {{context.servicos.valor_servico}}</p>
         {% endif %}
+<<<<<<< HEAD
         <p>Desconto: {{ context.desconto }}%</p>
         <p>Método de Pagamento: {{ context.metodo }}</p>
         <p>Total: {{ context.total }}</p>
+=======
+        
+        <p>Desconto: {{ context.desconto }}%</p>
+        <p>Método de Pagamento: {{ context.metodo }}</p>
+        <p>Total: R$ {{ context.total }}</p>
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
         <p>Relatorio da Estadia: <br>{{ context.relatorio }}</p>
         <hr>
     {% endfor %}

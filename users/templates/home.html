@@ -4,12 +4,17 @@
   <head>
     <meta charset="utf-8">
     
+<<<<<<< HEAD
     <link rel="stylesheet" type="text/css" href="{% static 'css/style_home4.css' %}">
+=======
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_home5.css' %}">
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     <title>Página Inicial</title>
   </head>
   <body>
     
     <div class="form">
+<<<<<<< HEAD
       <img class="logo" src="{% static 'img/logo.jpeg' %}">
 
       <h1>Página Inicial</h1>
@@ -53,5 +58,29 @@
     {% else %}
     <p>Nenhum cachorro faz aniversário próximo mês.</p>
     {% endif %}
+=======
+      <img class="logo" src="{% static 'img/logo1.png' %}">
+
+      <h1>Página Inicial</h1>
+      <div class="ul">
+        <a href="{% url 'login' %}">Login</a><br><br>
+        <a href="{% url 'cadastro' %}">Cadastro</a><br><br>
+        <a href="{% url 'ficha:ficha' %}">Cadastrar Pet</a><br><br>
+        <a href="{% url 'ficha:lista' %}">Cães cadastrados</a><br><br>
+        <a href="{% url 'ficha:puxar_ficha' %}">Procurar Ficha</a><br><br>
+        <a href="{% url 'reserva' %}">Nova Reserva Hotel</a><br><br>
+        <a href="{% url 'reservaday' %}">Nova Reserva Day Care</a><br><br>
+        <a href="{% url 'lista_reserva' %}">Reservas do Hotel em Andamento</a><br><br>
+        <a href="{% url 'lista_reservaday' %}">Reservas Day Care em Andamento</a><br><br>
+        <a href="{% url 'puxar_reserva' %}">Procurar Reserva Hotel</a><br><br>
+        <a href="{% url 'puxar_reservaday' %}">Procurar Reserva Day Care</a><br><br>
+        <a href="{% url 'historico_reserva' %}">Historico de Reservas</a><br><br>
+        <a href="{% url 'caixa:relatoriocaixa' %}">Gerar Relatório de Caixa</a><br><br>
+        <a href="{% url 'logout' %}">Sair</a><br><br>
+      </div>
+
+    </div>
+      
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
   </body>
 </html>

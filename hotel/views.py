@@ -42,6 +42,12 @@ def reservaday(request):
         if form_reserva.is_valid():
             reserva = form_reserva.save(commit=False)
             reserva.usuario = request.user
+<<<<<<< HEAD
+=======
+            pacote = reserva.pacote
+            if pacote:
+                reserva.dias_utilizados = pacote.quantidade_dias
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
             reserva.save()
             form_reserva.save_m2m()
             return redirect('home')
@@ -50,13 +56,25 @@ def reservaday(request):
     return render(request, 'reserva_day.html', {'form_reserva': form_reserva})
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 @login_required(login_url="/auth/login/")
 def reserva_list(request):
     hoje = date.today()  # obtém a data atual
     reservas = Reserva.objects.filter(pago=False)
+<<<<<<< HEAD
 
     context = {
         'reservas': reservas
+=======
+    cont = reservas.count()
+    context = {
+        'reservas': reservas,
+        'cont':cont,
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     }
     return render(request, 'lista_reservas.html', context)
 
@@ -64,9 +82,17 @@ def reserva_list(request):
 def reservaday_list(request):
     hoje = date.today()  # obtém a data atual
     reservas = ReservaDay.objects.filter(pago=False)
+<<<<<<< HEAD
 
     context = {
         'reservas': reservas
+=======
+    cont = reservas.count()
+
+    context = {
+        'cont':cont,
+        'reservas': reservas,
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     }
     return render(request, 'lista_reservasday.html', context)
 

@@ -2,7 +2,10 @@ from django import forms
 from .models import ReservaDay, Reserva, ServicosAdicionais
 
 class Reservaform(forms.ModelForm):
+<<<<<<< HEAD
     data_entrada = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'DD/MM/AAAA'}))
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     class Meta:
         model = Reserva
         fields = ['pet','data_entrada','data_saida','hora_entrada','horario_alimentacao', 'horario_personalizado','instrucoes_medicamentos', 'autorizacao_para_cuidados_medicos', 'servicos_adicionais']
@@ -32,6 +35,11 @@ class ReservaDayForm(forms.ModelForm):
             'num_reserva': forms.HiddenInput(),
             #'servicos_adicionais': forms.CheckboxSelectMultiple()
             'pago':forms.HiddenInput(),
+<<<<<<< HEAD
+=======
+            'dias_utilizados':forms.HiddenInput(),
+            
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
             
         }
     def __init__(self, *args, **kwargs):

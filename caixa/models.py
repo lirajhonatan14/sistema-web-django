@@ -2,6 +2,10 @@ from django.db import models
 from hotel.models import Reserva, ReservaDay
 from django.contrib.auth.models import User
 from ficha.models import FichaDog
+<<<<<<< HEAD
+=======
+from hotel.models import Pacote
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 import datetime
 
 class Caixa(models.Model):
@@ -30,6 +34,10 @@ class CaixaDay(models.Model):
     metodo_de_pagamento =  models.CharField(max_length=20, choices=METODO_CHOICES)
     total = models.DecimalField(max_digits=5, decimal_places=2)
     data = models.DateField(default=datetime.date.today)
+<<<<<<< HEAD
+=======
+    pacote = models.ForeignKey(Pacote, on_delete=models.SET_NULL, null=True, blank=True)
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     
 
 

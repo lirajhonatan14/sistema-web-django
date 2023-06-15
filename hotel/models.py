@@ -50,6 +50,10 @@ class ReservaDay(models.Model):
     autorizacao_para_cuidados_medicos = models.BooleanField(default=False, choices=[(False, 'Não'), (True, 'Sim')])
     servicos_adicionais = models.ForeignKey('hotel.ServicosAdicionais', blank=True,null=True, on_delete=models.CASCADE)
     pacote = models.ForeignKey('hotel.Pacote', on_delete=models.SET_NULL, null=True, blank=True)
+<<<<<<< HEAD
+=======
+    dias_utilizados = models.IntegerField(blank=True, null=True)
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     pago = models.BooleanField(default=False, null=True, choices=[(False, 'Não'), (True, 'Sim')])
     
     def clean(self):

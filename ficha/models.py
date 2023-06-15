@@ -10,7 +10,11 @@ class FichaDog(models.Model):
     restricoes_alimentares = models.CharField(max_length=100, blank=True, null=True)
     nome_tutor = models.CharField(max_length=100,blank=True)
     contato_tutor = models.CharField(max_length=100)
+<<<<<<< HEAD
     cpf_tutor = models.CharField(max_length=14)
+=======
+    cpf_tutor = models.CharField(max_length=100)
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
     endereco = models.CharField(max_length=100,blank=True, null=True)
     veterinario = models.CharField(max_length=100,blank=True, null=True)
     observacoes = models.TextField(blank=True, null=True)
@@ -24,6 +28,7 @@ class FichaDog(models.Model):
     def __str__(self):
         return f"{self.nome} - {self.raca}"
 
+<<<<<<< HEAD
 class Vacina(models.Model):
     nome = models.CharField(max_length=100)
     validade = models.DateField()
@@ -47,4 +52,6 @@ class VacinaAnimal(models.Model):
     def __str__(self):
         return f"{self.pet}"
 
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 

@@ -1,13 +1,17 @@
 from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+<<<<<<< HEAD
 from ficha.models import FichaDog
 from datetime import datetime
+=======
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
 
 def logout_view(request):
     logout(request)
     return redirect('login')
 
+<<<<<<< HEAD
 def lembrardatanasc(mes):
      # Obtenha o número do mês atual
     mes_atual = datetime.now().month
@@ -67,3 +71,7 @@ def home(request, mes=None):
         proxmes = 'Fevereiro'
     return render(request, 'home.html', {'cachorros_aniversario': cachorros_aniversario, 'mes':mesnome, 'proxmes':proxmes, 'aniversario': aniversario})  
 
+=======
+def home(request):
+    return render(request,'home.html')
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6

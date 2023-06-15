@@ -32,6 +32,10 @@ class CaixaDayForm(forms.ModelForm):
             #'num_reserva': forms.HiddenInput(),
             'data':forms.HiddenInput(),
             'pet': forms.HiddenInput(),
+<<<<<<< HEAD
+=======
+            'pacote':forms.HiddenInput(),
+>>>>>>> 1e0f72eb25cb8cf64458f5b391e22ffc0920abd6
         }
     def save(self, commit=True, usuario=None):
         reserva = super().save(commit=False)
