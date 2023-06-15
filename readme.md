@@ -1,1 +1,2 @@
-Sistema pra gerenciamento de hotel de cachorro em django
+# sistema-web-django
+Sistema para gerenciamento de hotel para cachorro

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseServerError
 from django.contrib import messages
-from hotel.models import Reserva, ReservaDay
+from hotel.models import Reserva, ReservaDay, PacoteCliente
 from django.shortcuts import render, get_object_or_404,redirect
 from .models import Caixa, CaixaDay
 from .forms import CaixaForm, CaixaDayForm
@@ -92,6 +92,8 @@ def caixa_hotel(request, num_reserva):
 
 def caixa_day(request, num_reserva):
     reserva = ReservaDay.objects.get(num_reserva=num_reserva)
+    nome = reserva.pet_id
+    
     usuario = request.user.username
     
     if request.method == 'POST':
@@ -210,35 +212,54 @@ def relatorio_reservas(request, num_reserva):
     return response
 
 def relatorio_reservasday(request, num_reserva):
-    # Get the CaixaDay objects for the given num_reserva
     caixas = CaixaDay.objects.filter(num_reserva=num_reserva)
-
     hora = timezone.now().time()
     hora_atual = diminuir_horas(hora, 3)
-
-    # Create a list to hold the data for each CaixaDay object
     context_list = []
 
-    # Loop through the queryset and process each CaixaDay object
     for caixa in caixas:
         reserva = caixa.num_reserva
+        if reserva.pacote:
+            pacote = reserva.pacote.id
         pet = caixa.pet
         desc = caixa.desconto
         servicos_adicionais = caixa.num_reserva.servicos_adicionais
 
-    if servicos_adicionais is not None and servicos_adicionais.valor_servico is not None:
-        # O objeto servicos_adicionais e o atributo valor_servico estão definidos
-        serv = servicos_adicionais.valor_servico
-    else:
-        # O objeto servicos_adicionais ou o atributo valor_servico é nulo
-        serv = 0  # Ou qualquer outro valor padrão que você queira atribuir
+        if servicos_adicionais is not None and servicos_adicionais.valor_servico is not None:
+            serv = servicos_adicionais.valor_servico
+        else:
+            serv = 0
+        try:
+            pacotes = PacoteCliente.objects.get(pacote_id=pacote)
+            quant = pacotes.quantidade_dias
+            preco = pacotes.pacote.quantidade_dias
+        
+            if quant == preco:
+                val = reserva.pacote.preco
+                desc = (desc/100) * val
+                numero = (val - desc) + serv
+                total = format(numero, '.2f')
+                caixa.total = total
+            elif quant != preco:
+                total = 0
+                caixa.total = total
+            else:
+                desc = (desc/100) * 60
+                numero = (60 - desc) + serv
+                total = format(numero, '.2f')
+                caixa.total = total
+            caixa.save()
+        except:
+            if reserva.pacote:
+                total = 0
+                caixa.total = total
+            else:
+                desc = (desc/100) * 60
+                numero = (60 - desc) + serv
+                total = format(numero, '.2f')
+                caixa.total = total 
+            caixa.save()
 
-    desc = (desc/100)*60
-    total = (60-desc)+serv
-    caixa.total = total
-    
-    caixa.save()
-        # Create a dictionary to hold the data for the PDF
     context = {
         'total': total,
         'hora_atual': hora_atual,
@@ -252,28 +273,23 @@ def relatorio_reservasday(request, num_reserva):
         'usuario': reserva.usuario,
         'relatorio': caixa.relatorio_estadia,
         'desconto': caixa.desconto,
-        'servicos':servicos_adicionais,
-        'metodo':caixa.metodo_de_pagamento,
-        
+        'servicos': servicos_adicionais,
+        'metodo': caixa.metodo_de_pagamento,
     }
 
     context_list.append(context)
 
-    # Render the PDF template with the context data
     template_path = 'relatorio_reservaday.html'
     template = get_template(template_path)
     html = template.render({'context_list': context_list})
 
-    # Create a BytesIO buffer to receive the PDF output
     buffer = io.BytesIO()
-
-    # Generate the PDF output using the BytesIO buffer
     pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), buffer)
 
-    # Return the PDF as an HTTP response
     response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'filename="relatorio_reservasday.pdf"'
     return response
+
 
 
 def calcular_total(num_reserva):
@@ -324,7 +340,7 @@ def calcular_total(num_reserva):
         
     total = duracao * taxa
     return total
-
+@login_required(login_url="/auth/login/")
 def ficha_reserva(request):
     if request.method == 'POST':
         nome_pet = request.POST.get('pet')
@@ -334,11 +350,11 @@ def ficha_reserva(request):
         except Reserva.DoesNotExist:
             return render(request, 'reserva_nao_encontrada.html')
     return render(request, 'proc_reserva.html')
-
+@login_required(login_url="/auth/login/")
 def exibir_reserva(request, num_reserva):
     reserva = get_object_or_404(Reserva, num_reserva=num_reserva)
     return render(request, 'ficha_reserva.html', {'pet': reserva})
-
+@login_required(login_url="/auth/login/")
 def relatorio_caixa(request):
     data_atual = datetime.now().date()
     data_inicio = data_atual - timedelta(days=30)

@@ -16,5 +16,7 @@ urlpatterns = [
         path('historico_reservas/', views.proc_reserva, name='historico_reserva'),
         path('procurar_reservaday/', views.puxar_reservaday, name='puxar_reservaday'),
         path('mostrar_reservaday/', views.mostrar_reservaday, name='mostrar_reservaday'),
+        path('renovar_pacote/', views.pacote, name='pacote'),
+        path('pacote_renovado/', views.pacote_reservado, name='pacote_reservado'),
         
     ]

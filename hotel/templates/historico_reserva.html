@@ -7,8 +7,10 @@
     <title>Reserva Day Care</title>
   </head>
   <body>
+    
     <table class="form">
-      <a href="{% url 'home' %}">Home</a>
+      <a style='font-size:25px;' href="{% url 'home' %}">Home</a>
+      <h1 style='text-align:center;'>Historico de Reservas Hotel</h1>
         <thead class="legenda">
           <tr class="tr">
             <th>Número da Reserva</th>
@@ -18,8 +20,10 @@
             <th>Data de Saída</th>
             <th>Usuário</th>
             <th>Comida</th>
-            <th>Horário Pernsonalizado</th>
-            <th>Autoriozação para cuidados</th>
+            {% if reservas.horario_personalizado %}
+              <th>Horário Pernsonalizado</th>
+            {% endif %}
+            <th>Aut. p/ cuidados</th>
 
 
             
@@ -38,9 +42,46 @@
             <td class='entrada'>{{ reserva.data_saida  |date:"d/m/Y"}}</td>
             <td class='entrada'>{{ reserva.usuario }}</td>
             <td class='entrada'>{{ reserva.horario_alimentacao }}</td>
-            <td class='entrada'>{{ reserva.horario_personalizado }}</td>
-            <td class='entrada'>{{ reserva.instrucoes_medicamentos }}</td>
+            {% if reserva.horario_personalizado %}
+              <td class='entrada'>{{ reserva.horario_personalizado }}</td>
+            {% endif %} 
             <td class='entrada'>{{ reserva.autorizacao_para_cuidados_medicos }}</td>
+
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <table class="form">
+      <h1 style='text-align:center;'>Historico de Reservas Day Care</h1>
+        <thead class="legenda">
+          <tr class="tr">
+            <th>Número da Reserva</th>
+            <th>Nome do Animal</th>
+            <th>Data</th>
+            <th>Hora de Entrada</th>
+            <th>Usuário</th>
+            <th>Comida</th>
+            {% if reservasday.horario_personalizado %}
+              <th>Horário Pernsonalizado</th>
+            {% endif %}
+            <th>Aut. P/ Cuidados</th>
+
+          </tr>
+        </thead>
+        <br>
+        <tbody>
+          {% for reserva in reservasday %}
+          <tr>
+            <td class='num'><a href="{% url 'caixa:caixa' num_reserva=reserva.pk %}" class="btn btn-primary">{{ reserva.num_reserva }}</td>
+            <td class='nome'>{{ reserva.pet.nome}}</td>
+            <td class='data'>{{ reserva.data |date:"d/m/Y"}}</td>
+            <td class='entrada'>{{ reserva.hora_entrada }}</td>
+            <td class='entrada'>{{ reserva.usuario }}</td>
+            <td class='entrada'>{{ reserva.horario_alimentacao }}</td>
+            {% if reserva.horario_personalizado %}
+              <td class='entrada'>{{ reserva.horario_personalizado }}</td>
+            {% endif %}
+              <td class='entrada'>{{ reserva.autorizacao_para_cuidados_medicos }}</td>
 
           </tr>
           {% endfor %}

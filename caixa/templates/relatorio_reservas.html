@@ -22,7 +22,7 @@
         {% endif %}
         <p>Desconto: {{ context.desconto }}%</p>
         <p>Método de Pagamento: {{ context.metodo }}</p>
-        <p>Total: {{ context.total }}</p>
+        <p>Total: R${{ context.total }}</p>
         <p>Relatorio da Estadia: <br>{{ context.relatorio }}</p>
         <hr>
     {% endfor %}

@@ -12,6 +12,8 @@ urlpatterns = [
     path('selecionar_vacinas/', views.definir_vacina, name='definir_vacina'),
     path('vacina/', views.vacina, name='vacina'),
     path('proc_vacina/', views.proc_vacina, name='procvacina'),
+    path('cadastrar_vacina/', views.cadastrar_vacina, name='cadastrar_vacina'),
+    
     
     
 ] 

@@ -44,7 +44,7 @@ def mostrar_ficha(request):
     else:
         # Lógica para exibir a ficha do animal
         return render(request, 'mostrar_ficha.html', {'animal': animal})
-
+@login_required(login_url="/auth/login/")
 def cadastrar_vacina(request):
     if request.method == 'POST':
         form = VacinaForm(request.POST)
@@ -54,7 +54,7 @@ def cadastrar_vacina(request):
     else:
         form = VacinaForm()
     return render(request, 'cadastrar_vacina.html', {'form':form})
-
+@login_required(login_url="/auth/login/")
 def definir_vacina(request):
     if request.method == 'POST':
         form = VacinaAnimalForm(request.POST)
@@ -64,7 +64,7 @@ def definir_vacina(request):
     else:
         form = VacinaAnimalForm()
     return render(request, 'definir_vacinas.html', {'form':form})
-
+@login_required(login_url="/auth/login/")
 def proc_vacina(request):
     if request.method == 'POST':
         return redirect('ficha:vacina')
@@ -72,7 +72,7 @@ def proc_vacina(request):
     animais = FichaDog.objects.all()
     return render(request, 'proc_vacina.html', {'animais': animais})
 
-
+@login_required(login_url="/auth/login/")
 def vacina(request):
     nome_id = request.POST.get('nome_id')
     try:
@@ -88,4 +88,11 @@ def vacina(request):
         return render(request, 'vacina.html', {'animal': animal, 'nome': nome})
 
 
+def lembrete_vacina(nome):
+    data_administracao = VacinaAnimal.objects.filter(pet=nome)
+    data_validade = data_administracao.vacina.validade
+    data_adm = data_administracao.data_administracao
+    if data_validade > data_adm:
+        print('Vacina Vencida!')
+    return 
    

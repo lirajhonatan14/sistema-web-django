@@ -93,4 +93,16 @@ class Pacote(models.Model):
 
     def __str__(self):
         return f"{self.nome} - R${self.preco}"
+    
+class PacoteCliente(models.Model):
+    Dog = models.ForeignKey('ficha.FichaDog', on_delete=models.CASCADE)
+    pacote = models.ForeignKey('hotel.Pacote', on_delete=models.CASCADE)
+    quantidade_dias = models.IntegerField()
+    
+    data = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.Dog} - {self.pacote}"
+    
+    
         
