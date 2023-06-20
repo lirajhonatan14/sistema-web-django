@@ -1,9 +1,9 @@
 from django.http import HttpResponse, HttpResponseServerError
 from django.contrib import messages
-from hotel.models import Reserva, ReservaDay, PacoteCliente
+from hotel.models import Reserva, ReservaDay, PacoteCliente, ReservaBanho
 from django.shortcuts import render, get_object_or_404,redirect
-from .models import Caixa, CaixaDay
-from .forms import CaixaForm, CaixaDayForm
+from .models import Caixa, CaixaDay, CaixaBanho
+from .forms import CaixaForm, CaixaDayForm, CaixaBanhoForm
 from django.contrib.auth.decorators import login_required
 from reportlab.pdfgen import canvas
 from io import BytesIO
@@ -47,7 +47,7 @@ def caixa_hotel(request, num_reserva):
     caixa = Caixa(data=data_str)
 
     # Salvando o objeto Caixa no banco de dados
-    caixa.save()
+    
     if request.method == 'POST':
         caixa_form = CaixaForm(request.POST)
         reserva.pago = True
@@ -70,6 +70,7 @@ def caixa_hotel(request, num_reserva):
                 metodo_de_pagamento=cleaned_data['metodo_de_pagamento'],
                 total=0
             )
+            caixa.save()
             
             return redirect('caixa:relatorio', num_reserva=num_reserva)
         else:
@@ -133,7 +134,47 @@ def caixa_day(request, num_reserva):
     }
     return  render(request, 'caixa_day.html', context)
 
+def caixa_banho(request, num_reserva):
+    reserva = ReservaBanho.objects.get(num_reserva=num_reserva)
 
+    usuario = request.user.username
+    
+    if request.method == 'POST':
+        caixa_form = CaixaBanhoForm(request.POST)
+        reserva.status_de_pagamento = True
+        reserva.save()
+        if caixa_form.is_valid():
+            # Get the cleaned form data
+            cleaned_data = caixa_form.cleaned_data
+            
+            # Get the pet associated with the reservation
+            pet = reserva.cachorro
+            banhista = reserva.banhista
+            # Create a new Caixa object using the form data and pet
+            caixa = CaixaBanho.objects.create(
+                num_reserva=reserva,
+                banhista=banhista,
+                pet=pet,
+                relatorio_estadia=cleaned_data['relatorio_estadia'],
+                desconto=cleaned_data['desconto'],
+                metodo_de_pagamento=cleaned_data['metodo_de_pagamento'],
+                total=0
+            )
+            
+            return redirect('caixa:relatoriobanho', num_reserva=num_reserva)
+        else:
+            # Print out the form data and validation errors
+            print(caixa_form.cleaned_data)
+            print(caixa_form.errors)
+    else:
+        caixa_form = CaixaBanhoForm()
+    
+    context = {
+        'reserva': reserva,
+        'usuario': usuario,
+        'caixa_form': caixa_form,
+    }
+    return  render(request, 'caixa_banho.html', context)
 
 def diminuir_horas(tempo, horas):
     dt_tempo = datetime.combine(timezone.now().date(), tempo)
@@ -241,7 +282,8 @@ def relatorio_reservasday(request, num_reserva):
                 total = format(numero, '.2f')
                 caixa.total = total
             elif quant != preco:
-                total = 0
+                val = reserva.pacote.preco
+                total = val
                 caixa.total = total
             else:
                 desc = (desc/100) * 60
@@ -291,6 +333,67 @@ def relatorio_reservasday(request, num_reserva):
     return response
 
 
+def relatorio_reservasbanho(request, num_reserva):
+    # Get the Caixa objects for the given num_reserva
+    caixas = CaixaBanho.objects.filter(num_reserva=num_reserva)
+    hora = timezone.now().time()
+    hora_atual = diminuir_horas(hora, 3)
+
+    
+    # Create a list to hold the data for each Caixa object
+    context_list = []
+
+    # Loop through the queryset and create a dictionary for each Caixa object
+    for caixa in caixas:
+        # Get the Reserva and Pet objects associated with the Caixa object
+        reserva = caixa.num_reserva
+        pet = caixa.pet
+        desc = caixa.desconto
+        val = caixa.num_reserva.tipo_banho.valor_servico
+    
+    desc = (desc/100)*val
+    numero = (val-desc)
+    total = format(numero, '.2f')
+    caixa.total = total
+    caixa.save()
+
+        # Create a dictionary to hold the data for the PDF
+    context = {
+        'total': total,
+        'hora_atual':hora_atual,
+        'reserva': reserva,
+        'num_reserva': reserva.num_reserva,
+        'nome_pet': pet.nome,
+        'nome_tutor': pet.nome_tutor,
+        'cpf_tutor': pet.cpf_tutor,
+        'data': reserva.data_reserva,
+        'hora': reserva.hora_reserva,
+        'usuario': reserva.banhista,
+        'relatorio':caixa.relatorio_estadia,
+        'desconto':caixa.desconto,
+        'servicos':reserva.tipo_banho,
+        'metodo':caixa.metodo_de_pagamento,
+
+        
+    }
+
+    context_list.append(context)
+
+    # Render the PDF template with the context data
+    template_path = 'relatorio_reservabanho.html'
+    template = get_template(template_path)
+    html = template.render({'context_list': context_list})
+
+    # Create a BytesIO buffer to receive the PDF output
+    buffer = io.BytesIO()
+
+    # Generate the PDF output using the BytesIO buffer
+    pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), buffer)
+
+    # Return the PDF as an HTTP response
+    response = HttpResponse(buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="relatorio_reservas.pdf"'
+    return response
 
 def calcular_total(num_reserva):
     caixa = Caixa.objects.get(num_reserva=num_reserva)

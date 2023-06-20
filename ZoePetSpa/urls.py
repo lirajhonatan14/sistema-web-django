@@ -11,5 +11,6 @@ urlpatterns = [
     path('', include('caixa.urls')),
     path('logout/', views.logout_view, name='logout'), 
     path('', views.home, name='home'), 
+    path('', include('calendario.urls')), 
     
 ]

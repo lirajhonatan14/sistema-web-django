@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'users',
     'ficha',
     'caixa',
-
+    'calendario',
 ]
 
 MIDDLEWARE = [
@@ -114,6 +114,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'pt-br'
+LANGUAGES = [
+    ('pt-br', 'Português'),
+    # Outros idiomas suportados
+]
 
 TIME_ZONE = 'America/Sao_Paulo'
 
@@ -121,7 +125,7 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = True
-
+ADMIN_MENU = 'calendario.admin_tools_menu.menu'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

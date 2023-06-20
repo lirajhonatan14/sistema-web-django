@@ -22,7 +22,7 @@ class FichaDog(models.Model):
             db_table = 'Ficha_Dog'
             
     def __str__(self):
-        return f"{self.nome} - {self.raca}"
+        return f"{self.nome} - {self.raca} - {self.nome_tutor}"
 
 class Vacina(models.Model):
     nome = models.CharField(max_length=100)

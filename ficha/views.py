@@ -23,6 +23,9 @@ def ficha(request):
 @login_required(login_url="/auth/login/")
 def lista_fichas_cachorros(request):
     cachorros = FichaDog.objects.all()
+    search = request.GET.get('search') 
+    if search:
+        cachorros = cachorros.filter(nome__icontains=search) 
     return render(request, 'lista_pet.html', {'cachorros': cachorros})
 @login_required(login_url="/auth/login/")
 def puxar_ficha(request):
@@ -34,10 +37,9 @@ def puxar_ficha(request):
 
 
 @login_required(login_url="/auth/login/")
-def mostrar_ficha(request):
-    nome_id = request.POST.get('nome_id')
+def mostrar_ficha(request, nome):
     try:
-        animal = FichaDog.objects.get(nome=nome_id)
+        animal = FichaDog.objects.get(nome=nome)
     except FichaDog.DoesNotExist:
         # Lógica de tratamento caso o animal não seja encontrado
         return HttpResponse("Animal não encontrado")
@@ -53,6 +55,7 @@ def cadastrar_vacina(request):
         return redirect('ficha:cadastrar_vacina')
     else:
         form = VacinaForm()
+    messages.success(request, 'Vacina cadastrada com sucesso.')
     return render(request, 'cadastrar_vacina.html', {'form':form})
 @login_required(login_url="/auth/login/")
 def definir_vacina(request):

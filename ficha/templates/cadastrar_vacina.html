@@ -9,7 +9,7 @@
   <body>
     <div class="form">
     <h1>Formulário para registro de cães</h1>
-      <form action='{% url "ficha:ficha" %}' method="post">
+      <form action='{% url "ficha:cadastrar_vacina" %}' method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <div class='home'>

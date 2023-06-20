@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .forms import ReservaDayForm, Reservaform
+from .forms import ReservaDayForm, Reservaform, ReservaBanhoForm
 from datetime import datetime, date
 from .models import Reserva, ReservaServicoAdicional, PacoteCliente
 from django.shortcuts import render, redirect
@@ -10,9 +10,10 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .models import Reserva, ReservaDay
+from .models import Reserva, ReservaDay, ReservaBanho
 from django.views.generic import View
 from django.core.exceptions import ValidationError
+from caixa.models import Caixa, CaixaDay, CaixaBanho
 
 
 @login_required(login_url="/auth/login/")
@@ -29,7 +30,6 @@ def nova_reserva(request):
     else:
         form_reserva = Reservaform()
     return render(request, 'reserva.html', {'form_reserva': form_reserva})
-
 
 
 
@@ -91,16 +91,40 @@ def reservaday_list(request):
     }
     return render(request, 'lista_reservasday.html', context)
 
+@login_required(login_url="/auth/login/")
+def reservabanho_list(request):
+    reservas = ReservaBanho.objects.filter()
+    
+    
+   
+    context = {
+        'reservas': reservas,
+    
+        
+    }
+    return render(request, 'lista_reservabanho.html', context)
 
 @login_required(login_url="/auth/login/")
 def proc_reserva(request):
     hoje = date.today()  # obtém a data atual
     reservas = Reserva.objects.all()
     reservasday = ReservaDay.objects.all()
+    reservasbanho = ReservaBanho.objects.all()
+    
+    search = request.GET.get('search')
+    if search:
+        reservas = reservas.filter(pet__nome__icontains=search)
+        reservasday = reservasday.filter(pet__nome__icontains=search)
+        reservasbanho = reservasbanho.filter(pet__nome__icontains=search)
+        
+        
+        
 
     context = {
         'reservas': reservas,
-        'reservasday':reservasday
+        'reservasday':reservasday,
+        'reservasbanho':reservasbanho,
+        
     }
     return render(request, 'historico_reserva.html', context)
 
@@ -166,16 +190,19 @@ def pacote_reservado(request):
         pacotes = PacoteCliente.objects.all()
         return redirect('home')
 @login_required(login_url="/auth/login/")
-def mostrar_reserva(request):
-    nome_id = request.POST.get('nome_id')
+def mostrar_reserva(request, num_reserva):
     try:
-        animal = Reserva.objects.get(num_reserva=nome_id)
+        animal = Reserva.objects.get(num_reserva=num_reserva)
+        caixa = Caixa.objects.filter(num_reserva__num_reserva=num_reserva)
+        
+        if caixa:
+            caixa = 0
     except Reserva.DoesNotExist:
         # Lógica de tratamento caso o animal não seja encontrado
         return HttpResponse("Reserva não encontrada")
     else:
         # Lógica para exibir a ficha do animal
-        return render(request, 'mostrar_reserva.html', {'animal': animal})
+        return render(request, 'mostrar_reserva.html', {'animal': animal, 'caixa':caixa})
 @login_required(login_url="/auth/login/")   
 def puxar_reservaday(request):
     if request.method == 'POST':
@@ -186,18 +213,34 @@ def puxar_reservaday(request):
 
 
 @login_required(login_url="/auth/login/")
-def mostrar_reservaday(request):
-    nome_id = request.POST.get('nome_id')
+def mostrar_reservaday(request, num_reserva):
     try:
-        animal = ReservaDay.objects.get(num_reserva=nome_id)
+        animal = ReservaDay.objects.get(num_reserva=num_reserva)
+        nome = animal.pet.nome
+        if animal.pacote:
+            quant = PacoteCliente.objects.get(Dog__nome=nome)
+        caixa = CaixaDay.objects.filter(num_reserva__num_reserva=num_reserva)
     except ReservaDay.DoesNotExist:
         # Lógica de tratamento caso o animal não seja encontrado
         return HttpResponse("Reserva não encontrada")
     else:
         # Lógica para exibir a ficha do animal
-        return render(request, 'mostrar_reservaday.html', {'animal': animal})
+        return render(request, 'mostrar_reservaday.html', {'animal': animal, 'caixa':caixa, 'quant':quant})
     
+@login_required(login_url="/auth/login/")
+def mostrar_reservabanho(request, num_reserva):
+    try:
+        animal = ReservaBanho.objects.get(num_reserva=num_reserva)
+        nome = animal.cachorro.nome
+        caixa = CaixaBanho.objects.filter(num_reserva__num_reserva=num_reserva)
+    except ReservaBanho.DoesNotExist:
+        # Lógica de tratamento caso o animal não seja encontrado
+        return HttpResponse("Reserva não encontrada")
+    else:
+        # Lógica para exibir a ficha do animal
+        return render(request, 'mostrar_reservaday.html', {'animal': animal, 'caixa':caixa})
     
+     
 @login_required(login_url="/auth/login/")
 def pacotes(request):
     if request.method == 'POST':
@@ -212,6 +255,22 @@ def pacotes(request):
         form_reserva = ReservaDayForm()
     return render(request, 'pacote.html', {'form_reserva': form_reserva})
 
+def reservar_banho(request):
+    if request.method == 'POST':
+        form = ReservaBanhoForm(request.POST)
+        if form.is_valid():
+            reserva = form.save(commit=False)
+            form.save_m2m()
+            reserva.save()
+            return HttpResponse("Reserva feita com sucesso!")
+        
+    else:
+        form = ReservaBanhoForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'reserva_banho.html', context)
 
 
 

@@ -2,13 +2,12 @@
 <html>
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style_proc.css' %}">
-    <title>Ficha do Animal</title>
 </head>
 <body>
-    <a href="{% url 'home' %}">Home</a>
-    <h1>Ficha de {{animal.nome}}</h1>
+    <a class="home" href="{% url 'home' %}">Home</a>
+    
     <div class='form'>
+        <h1>Ficha de {{animal.nome}}</h1>
         <p><strong>Nome do Animal:</strong> {{ animal.nome }}</p>
         <p><strong>Raça:</strong> {{ animal.raca }}</p>
         <p><strong>Data de Nascimento:</strong> {{ animal.data_de_nascimento }}</p>
@@ -23,8 +22,36 @@
         <p><strong>Veterinario:</strong> {{ animal.veterinario }}</p>
         <p><strong>Observações:</strong> {{ animal.observacoes }}</p>
         <p><strong>Data da Criação da Ficha:</strong> {{ animal.data }}</p>
+        
     
         <!-- Adicione outras informações que desejar mostrar -->
     </div>
 </body>
+<style>
+    body{
+        background-image: url('/static/img/fundo.jpeg');
+      }
+      .form{
+        height: auto;
+        border: 4px solid black;
+        width: 40%;
+        margin-left: 5%;
+        background-color: rgb(231, 141, 130);
+        font-size: x-large;
+    } 
+    p{
+        margin-left: 5%;
+    }
+    .home{
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+        border: 2px solid  black;
+        background-color: rgb(231, 141, 130);
+        text-align: center;
+      }
+      h1{
+        margin-left: 5%;
+      }
+</style>
 </html>

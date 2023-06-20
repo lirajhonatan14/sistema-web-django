@@ -2,7 +2,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from ficha.models import FichaDog, VacinaAnimal
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def logout_view(request):
     logout(request)
@@ -12,7 +12,6 @@ from datetime import date
 def verificar_vacina():
     vacinas_vencidas = []
     vacinas_reforco = []
-
     # Obtenha todos os objetos VacinaAnimal
     vacina_animal_objs = VacinaAnimal.objects.all()
 
@@ -21,13 +20,17 @@ def verificar_vacina():
         vacina = vacina_animal.vacina
 
         # Verifique se a vacina está vencida
+
         if vacina.validade <= date.today():
             vacinas_vencidas.append(vacina_animal)
+            
+        
 
         # Verifique se a vacina está no período de reforço
         if vacina.data_reforco and vacina.data_reforco <= date.today():
             vacinas_reforco.append(vacina_animal)
-
+            
+            
     return vacinas_vencidas, vacinas_reforco
 
 
