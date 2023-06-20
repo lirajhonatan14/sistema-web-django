@@ -65,7 +65,17 @@ class ReservaDay(models.Model):
             
     def __str__(self):
         return str(self.num_reserva)
-    
+class ReservaBanho(models.Model):
+    num_reserva = models.IntegerField(primary_key=True, editable=False)
+    data_reserva = models.DateField()
+    hora_reserva = models.TimeField()
+    banhista = models.ForeignKey(User, on_delete=models.CASCADE)
+    cachorro = models.ForeignKey(FichaDog, on_delete=models.CASCADE)
+    tipo_banho = models.ForeignKey('hotel.ServicosAdicionais', on_delete=models.CASCADE)
+    status_de_pagamento = models.BooleanField(default=False, null=True, choices=[(False, 'Não Pago'), (True, 'Pago')])
+    observacoes = models.TextField(max_length=100)
+    def __str__(self):
+        return f"Reserva de banho para {self.cachorro.nome} em {self.data_reserva}"
 class ServicosAdicionais(models.Model):
     nome_servico = models.CharField(max_length=50, primary_key=True)
     valor_servico = models.DecimalField(max_digits=6, decimal_places=2)
@@ -78,7 +88,7 @@ class ServicosAdicionais(models.Model):
 class ReservaServicoAdicional(models.Model):
     reserva = models.ForeignKey(Reserva, on_delete=models.CASCADE)
     servico_adicional = models.ForeignKey(ServicosAdicionais, on_delete=models.CASCADE)
-    quantidade = models.PositiveIntegerField(default=1)
+    quantidade = models.PositiveIntegerField(default=1) 
     class Meta:
             db_table = 'Reserva_Servicos_adicionais'
 
