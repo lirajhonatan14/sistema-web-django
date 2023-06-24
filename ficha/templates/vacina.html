@@ -23,9 +23,9 @@
                 
                 <tr>
                     <td>{{ ani.vacina.nome }}</td>
-                    <td>{{ ani.data_administracao }}</td>
-                    <td>{{ ani.vacina.validade }}</td>
-                    <td>{{ ani.vacina.data_reforco }}</td>
+                    <td>{{ ani.data_administracao |date:"d/m/Y"}}</td>
+                    <td>{{ ani.vacina.validade |date:"d/m/Y"}}</td>
+                    <td>{{ ani.vacina.data_reforco |date:"d/m/Y"}}</td>
                 </tr>
                 
             </tbody>

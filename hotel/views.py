@@ -115,7 +115,7 @@ def proc_reserva(request):
     if search:
         reservas = reservas.filter(pet__nome__icontains=search)
         reservasday = reservasday.filter(pet__nome__icontains=search)
-        reservasbanho = reservasbanho.filter(pet__nome__icontains=search)
+        reservasbanho = reservasbanho.filter(cachorro__nome__icontains=search)
         
         
         
@@ -238,7 +238,7 @@ def mostrar_reservabanho(request, num_reserva):
         return HttpResponse("Reserva não encontrada")
     else:
         # Lógica para exibir a ficha do animal
-        return render(request, 'mostrar_reservaday.html', {'animal': animal, 'caixa':caixa})
+        return render(request, 'mostrar_reservabanho.html', {'animal': animal, 'caixa':caixa})
     
      
 @login_required(login_url="/auth/login/")

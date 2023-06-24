@@ -16,6 +16,7 @@ from ficha.models import FichaDog
 from datetime import timedelta, datetime
 from django.db.models import Sum
 from datetime import date
+from decimal import Decimal
 
 def total(reserva, num_reserva):
     caixa = Caixa.objects.filter(num_reserva=num_reserva)
@@ -208,7 +209,10 @@ def relatorio_reservas(request, num_reserva):
         serv = 0  # Ou qualquer outro valor padrão que você queira atribuir
     val = calcular_total(reserva)
     
-    desc = (desc/100)*val
+    
+   
+
+    desc = (desc / 100) * val
     total = (val-desc)+serv
     caixa.total = total
     caixa.save()

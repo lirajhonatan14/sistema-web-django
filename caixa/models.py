@@ -12,7 +12,7 @@ class Caixa(models.Model):
     desconto = models.DecimalField(max_digits=3, decimal_places=1)
     METODO_CHOICES = (('Cartão de Crédito', 'Cartão de Crédito'),('Cartão de Debito', 'Cartão de Debito'),('Dinheiro', 'Dinheiro'),('Pix', 'Pix'),)
     metodo_de_pagamento =  models.CharField(max_length=20, choices=METODO_CHOICES)
-    total = models.DecimalField(max_digits=5, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(default=datetime.date.today)
     
 
@@ -28,7 +28,7 @@ class CaixaDay(models.Model):
     desconto = models.DecimalField(max_digits=3, decimal_places=1)
     METODO_CHOICES = (('Cartão de Crédito', 'Cartão de Crédito'),('Cartão de Debito', 'Cartão de Debito'),('Dinheiro', 'Dinheiro'),('Pix', 'Pix'),)
     metodo_de_pagamento =  models.CharField(max_length=20, choices=METODO_CHOICES)
-    total = models.DecimalField(max_digits=5, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(default=datetime.date.today)
     
 
@@ -45,7 +45,7 @@ class CaixaBanho(models.Model):
     desconto = models.DecimalField(max_digits=3, decimal_places=1)
     METODO_CHOICES = (('Cartão de Crédito', 'Cartão de Crédito'),('Cartão de Debito', 'Cartão de Debito'),('Dinheiro', 'Dinheiro'),('Pix', 'Pix'),)
     metodo_de_pagamento =  models.CharField(max_length=20, choices=METODO_CHOICES)
-    total = models.DecimalField(max_digits=5, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     data = models.DateField(default=datetime.date.today)
     
 

@@ -10,12 +10,12 @@
     <div class='form'>
     <h1>Número da Reserva: {{animal.num_reserva}}</h1>
 
-        <p><strong>Nome do Animal:</strong> {{ animal.pet.nome }}</p>
+        <p><strong>Nome do Animal:</strong> {{ animal.cachorro.nome }}</p>
         <p><strong>Número da Reserva:</strong> {{ animal.num_reserva }}</p>
-        <p><strong>Data:</strong> {{ animal.data }}</p>
-        <p><strong>Hora de Entrada:</strong> {{ animal.hora_entrada }}</p>
-        <p><strong>Usuário:</strong> {{ animal.usuario }}</p>
-        <p><strong>Horário da Alimentação:</strong> {{ animal.horario_alimentacao}}</p>
+        <p><strong>Data:</strong> {{ animal.data_reserva }}</p>
+        <p><strong>Hora de Entrada:</strong> {{ animal.hora_reserva }}</p>
+        <p><strong>Banhista:</strong> {{ animal.banhista }}</p>
+        
         {%if animal.horario_personalizado%}
             <p><strong>Horário Personalizado:</strong> {{ animal.horario_personalizado }}</p>
         {%endif%}

@@ -40,12 +40,13 @@ def puxar_ficha(request):
 def mostrar_ficha(request, nome):
     try:
         animal = FichaDog.objects.get(nome=nome)
+        vacina = VacinaAnimal.objects.filter(pet=nome).all()
     except FichaDog.DoesNotExist:
         # Lógica de tratamento caso o animal não seja encontrado
         return HttpResponse("Animal não encontrado")
     else:
         # Lógica para exibir a ficha do animal
-        return render(request, 'mostrar_ficha.html', {'animal': animal})
+        return render(request, 'mostrar_ficha.html', {'animal': animal, 'vacina':vacina})
 @login_required(login_url="/auth/login/")
 def cadastrar_vacina(request):
     if request.method == 'POST':

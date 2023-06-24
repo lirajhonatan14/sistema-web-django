@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def cadastro(request):
     if request.method == "GET":   
         return render(request,'cadastro.html')
